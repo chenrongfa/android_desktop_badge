@@ -1,0 +1,26 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+
+    defaultConfig {
+        applicationId "me.leolin.shortcutbadger.example"
+        minSdkVersion 16
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+
+
+dependencies {
+//    implementation 'me.leolin:ShortcutBadger:1.0.+@aar'
+    implementation project(':ShortcutBadger')
+}

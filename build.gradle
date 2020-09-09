@@ -1,0 +1,48 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.0'
+    }
+    ext {
+        POM_NAME = 'ShortcutBadger'
+        POM_DESCRIPTION = 'The ShortcutBadger makes your Android App show the count of unread messages as a badge on your App shortcut!'
+        POM_URL = 'https://github.com/leolin310148/ShortcutBadger'
+        POM_SCM_URL = 'https://github.com/leolin310148/ShortcutBadger'
+        POM_SCM_CONNECTION = 'https://github.com/leolin310148/ShortcutBadger.git'
+        POM_SCM_DEV_CONNECTION = 'https://github.com/leolin310148/ShortcutBadger.git'
+        POM_LICENCE_NAME = 'The Apache Software License, Version 2.0'
+        POM_LICENCE_URL = 'http://www.apache.org/licenses/LICENSE-2.0'
+        POM_LICENCE_DIST = 'repo'
+        POM_DEVELOPER_ID = 'leolin310148'
+        POM_DEVELOPER_NAME = 'Leo Lin'
+        POM_PACKAGING = 'aar'
+        POM_ARTIFACT_ID = 'ShortcutBadger'
+        VERSION_NAME = '1.1.8'
+        VERSION_CODE = 1
+        GROUP = 'me.leolin'
+    }
+}
+
+
+subprojects {
+    buildscript {
+        repositories {
+            jcenter()
+            mavenCentral()
+            google()
+        }
+        dependencies {
+            classpath 'com.android.tools.build:gradle:3.1.3'
+        }
+    }
+    repositories {
+        jcenter()
+        mavenCentral()
+        google()
+    }
+
+}
