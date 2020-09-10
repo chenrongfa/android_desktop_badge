@@ -38,27 +38,6 @@
         android:layout_centerVertical="true"
         android:text="Launch Notification"/>
 
-    <Button
-        android:id="@+id/btnRemoveBadge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Remove badge"/>
-    <Button
-        android:onClick="show_app_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="show_app_dialog"/>
-    <Button
-        android:onClick="start_activity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="start_activity"/>
 
 
 </LinearLayout>

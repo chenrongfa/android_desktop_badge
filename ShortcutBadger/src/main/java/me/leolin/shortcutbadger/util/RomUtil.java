@@ -18,14 +18,14 @@ import java.util.Properties;
 public class RomUtil {
 	private static final String TAG = "Rom";
 
-	public static final String ROM_MIUI = "MIUI";
-	public static final String ROM_EMUI = "EMUI";
-	public static final String ROM_FLYME = "FLYME";
-	public static final String ROM_OPPO = "OPPO";
-	public static final String ROM_SMARTISAN = "SMARTISAN";
-	public static final String ROM_VIVO = "VIVO";
-	public static final String ROM_QIKU = "QIKU";
-	public static final String ROM_JINLI = "AMIGO";
+	public static final String ROM_MIUI = "miui";
+	public static final String ROM_EMUI = "emui";
+	public static final String ROM_FLYME = "flyme";
+	public static final String ROM_OPPO = "oppo";
+	public static final String ROM_SMARTISAN = "smartisan";
+	public static final String ROM_VIVO = "vivo";
+	public static final String ROM_QIKU = "qiku";
+	public static final String ROM_JINLI = "amigo";
 
 	private static final String KEY_VERSION_MIUI = "ro.miui.ui.version.name";
 	private static final String KEY_VERSION_EMUI = "ro.build.version.emui";
@@ -155,13 +155,18 @@ public class RomUtil {
 			sName = ROM_SMARTISAN;
 		} else {
 			sVersion = Build.DISPLAY;
-			if (sVersion.toUpperCase().contains(ROM_FLYME)) {
+			if (sVersion.toLowerCase().contains(ROM_FLYME)) {
 				sName = ROM_FLYME;
-			} else if (sVersion.toUpperCase().contains(ROM_JINLI)) {
+			} else if (sVersion.toLowerCase().contains(ROM_JINLI)) {
 				sName = ROM_JINLI;
 			} else {
 				sVersion = Build.UNKNOWN;
-				sName = Build.MANUFACTURER.toUpperCase();
+				sName = Build.MANUFACTURER.toLowerCase();
+				if (sName.equals("huawei")||sName.equals("honor")){
+					sName=ROM_EMUI;
+				}else if (sName.equals("xiaomi")){
+					sName=ROM_MIUI;
+				}
 			}
 		}
 		return sName.equals(rom);

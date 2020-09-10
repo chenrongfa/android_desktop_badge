@@ -16,7 +16,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-
+    <activity android:name=".testActivity"/>
         <service
             android:name=".BadgeIntentService"
             android:exported="false"></service>

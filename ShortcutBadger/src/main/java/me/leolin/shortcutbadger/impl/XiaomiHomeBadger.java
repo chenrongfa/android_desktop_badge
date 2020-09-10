@@ -33,10 +33,10 @@ public class XiaomiHomeBadger implements Badger {
     public static final String EXTRA_UPDATE_APP_COMPONENT_NAME = "android.intent.extra.update_application_component_name";
     public static final String EXTRA_UPDATE_APP_MSG_TEXT = "android.intent.extra.update_application_message_text";
     private ResolveInfo resolveInfo;
-
+    //需要 notification 才能显示?
     @Override
     public void executeBadge(Context context, ComponentName componentName, int badgeCount) throws ShortcutBadgeException {
-        try {
+       /* try {
             Class miuiNotificationClass = Class.forName("android.app.MiuiNotification");
             Object miuiNotification = miuiNotificationClass.newInstance();
             Field field = miuiNotification.getClass().getDeclaredField("messageCount");
@@ -60,7 +60,36 @@ public class XiaomiHomeBadger implements Badger {
 
         if (Build.MANUFACTURER.equalsIgnoreCase("Xiaomi")) {
             tryNewMiuiBadge(context, badgeCount);
-        }
+        }*/
+
+       try {
+           Object newInstance = Class.forName("android.app.MiuiNotification").newInstance();
+           Field declaredField = newInstance.getClass().getDeclaredField("messageCount");
+           declaredField.setAccessible(true);
+           declaredField.set(newInstance, Integer.valueOf(badgeCount));
+           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+               // 8.0之后添加角标需要NotificationChannel
+               NotificationManager notificationManager=
+                       (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+               NotificationChannel channel = new NotificationChannel("badge", "badge",
+                       NotificationManager.IMPORTANCE_DEFAULT);
+               //    channel.setShowBadge(true);
+               notificationManager.createNotificationChannel(channel);
+           }
+           NotificationManager mNotificationManager = (NotificationManager) context
+                   .getSystemService(Context.NOTIFICATION_SERVICE);
+           NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"badge")
+                   .setContentTitle("1")
+                   .setContentText("222")
+
+                   .setSmallIcon(R.drawable.ic_launcher);
+           Notification notification = builder.build();
+           notification.getClass().getField("extraNotification").set(notification, newInstance);
+           mNotificationManager.notify(2,notification);
+
+       }catch (Exception e){
+
+       }
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)

@@ -7,8 +7,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,7 +15,7 @@ import android.widget.Toast;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 
-public class MainActivity extends Activity {
+public class testActivity extends Activity {
 
 
     @Override
@@ -38,7 +36,7 @@ public class MainActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "Error input", Toast.LENGTH_SHORT).show();
                 }
 
-                boolean success = ShortcutBadger.applyCount(MainActivity.this, badgeCount);
+                boolean success = ShortcutBadger.applyCount(testActivity.this, badgeCount);
 
                 Toast.makeText(getApplicationContext(), "Set count=" + badgeCount + ", success=" + success, Toast.LENGTH_SHORT).show();
             }
@@ -57,7 +55,7 @@ public class MainActivity extends Activity {
 
                 finish();
                 startService(
-                    new Intent(MainActivity.this, BadgeIntentService.class).putExtra("badgeCount", badgeCount)
+                    new Intent(testActivity.this, BadgeIntentService.class).putExtra("badgeCount", badgeCount)
                 );
             }
         });
@@ -66,7 +64,7 @@ public class MainActivity extends Activity {
         removeBadgeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean success = ShortcutBadger.removeCount(MainActivity.this);
+                boolean success = ShortcutBadger.removeCount(testActivity.this);
 
                 Toast.makeText(getApplicationContext(), "success=" + success, Toast.LENGTH_SHORT).show();
             }
@@ -91,16 +89,11 @@ public class MainActivity extends Activity {
 
     public void show_app_dialog(View view) {
         AlertDialog.Builder alertDialog=new AlertDialog.Builder(getApplicationContext());
-        AlertDialog alertDialog1 = alertDialog.create();
-        Window window = alertDialog1.getWindow();
-        window.setType(WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG);
-        alertDialog1.setContentView(R.layout.dialog1);
-        alertDialog1.show();
+        alertDialog.show();
 
 
     }
 
     public void start_activity(View view) {
-        startActivity(new Intent(this,testActivity.class));
     }
 }
