@@ -187,6 +187,8 @@ please use version 1.1.0+!
 CHANGE LOG
 ==========
 合并360app的角标适配
+修改vivo适配
+
 1.1.23:
 
 * Added Yandex Launcher support. Fixed issue with incorrect default launcher resolve
