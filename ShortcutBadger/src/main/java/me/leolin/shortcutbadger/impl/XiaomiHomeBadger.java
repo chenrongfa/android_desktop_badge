@@ -11,10 +11,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import me.leolin.shortcutbadger.Badger;
@@ -26,7 +28,7 @@ import me.leolin.shortcutbadger.util.BroadcastHelper;
 /**
  * @author leolin
  */
-@Deprecated
+//todo 原本的版本个人觉得不太合适，因为还需要显示一个空的通知？如果是这样还不如调用adaptXiaoMiBadger与应用想结合,没有显示就用原本的
 public class XiaomiHomeBadger implements Badger {
 
     public static final String INTENT_ACTION = "android.intent.action.APPLICATION_MESSAGE_UPDATE";
@@ -35,61 +37,12 @@ public class XiaomiHomeBadger implements Badger {
     private ResolveInfo resolveInfo;
     //需要 notification 才能显示?
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount) throws ShortcutBadgeException {
-       /* try {
-            Class miuiNotificationClass = Class.forName("android.app.MiuiNotification");
-            Object miuiNotification = miuiNotificationClass.newInstance();
-            Field field = miuiNotification.getClass().getDeclaredField("messageCount");
-            field.setAccessible(true);
-            try {
-                field.set(miuiNotification, badgeCount == 0 ? "" : badgeCount);
-            } catch (Exception e) {
-                field.set(miuiNotification, badgeCount);
-            }
-        } catch (Exception e) {
-            Intent localIntent = new Intent(
-                    INTENT_ACTION);
-            localIntent.putExtra(EXTRA_UPDATE_APP_COMPONENT_NAME, componentName.getPackageName() + "/" + componentName.getClassName());
-            localIntent.putExtra(EXTRA_UPDATE_APP_MSG_TEXT, String.valueOf(badgeCount == 0 ? "" : badgeCount));
-
-            try {
-                BroadcastHelper.sendIntentExplicitly(context, localIntent);
-            } catch (ShortcutBadgeException ignored) {}
-
-        }
-
-        if (Build.MANUFACTURER.equalsIgnoreCase("Xiaomi")) {
-            tryNewMiuiBadge(context, badgeCount);
-        }*/
-
-       try {
-           Object newInstance = Class.forName("android.app.MiuiNotification").newInstance();
-           Field declaredField = newInstance.getClass().getDeclaredField("messageCount");
-           declaredField.setAccessible(true);
-           declaredField.set(newInstance, Integer.valueOf(badgeCount));
-           if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-               // 8.0之后添加角标需要NotificationChannel
-               NotificationManager notificationManager=
-                       (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-               NotificationChannel channel = new NotificationChannel("badge", "badge",
-                       NotificationManager.IMPORTANCE_DEFAULT);
-               //    channel.setShowBadge(true);
-               notificationManager.createNotificationChannel(channel);
-           }
-           NotificationManager mNotificationManager = (NotificationManager) context
-                   .getSystemService(Context.NOTIFICATION_SERVICE);
-           NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"badge")
-                   .setContentTitle("1")
-                   .setContentText("222")
-
-                   .setSmallIcon(R.drawable.ic_launcher);
-           Notification notification = builder.build();
-           notification.getClass().getField("extraNotification").set(notification, newInstance);
-           mNotificationManager.notify(2,notification);
-
-       }catch (Exception e){
-
+    public void executeBadge(Context context, ComponentName componentName,
+                             Notification notification, int badgeCount) throws ShortcutBadgeException {
+       if ( !adaptXiaoMiBadger(notification,badgeCount)){
+           throw new ShortcutBadgeException("不支持");
        }
+
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -142,4 +95,37 @@ public class XiaomiHomeBadger implements Badger {
                 "com.i.miui.launcher"
         );
     }
+
+    /**
+     *  微信方法
+     * @param notification
+     * @param messageCount
+     * @return
+     */
+    public static boolean adaptXiaoMiBadger(Notification notification,int messageCount) {
+        boolean success=false;
+        try {
+            Object newInstance = Class.forName("android.app.MiuiNotification").newInstance();
+            Field declaredField = newInstance.getClass().getDeclaredField("messageCount");
+            declaredField.setAccessible(true);
+            declaredField.set(newInstance, Integer.valueOf(messageCount));
+            notification.getClass().getField("extraNotification").set(notification, newInstance);
+            success=true;
+        } catch (NoSuchFieldException e2) {
+            success = false;
+        } catch (IllegalArgumentException e3) {
+            success = false;
+        } catch (IllegalAccessException e4) {
+            success = false;
+        } catch (ClassNotFoundException e5) {
+            success = false;
+        } catch (InstantiationException e6) {
+            success = false;
+        } catch (Exception e7) {
+            success = false;
+        }
+
+        return success;
+    }
+
 }

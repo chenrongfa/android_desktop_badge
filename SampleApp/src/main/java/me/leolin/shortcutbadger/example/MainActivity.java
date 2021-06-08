@@ -2,10 +2,16 @@ package me.leolin.shortcutbadger.example;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
+import me.leolin.shortcutbadger.util.RomUtil;
 
 
 public class MainActivity extends Activity {
@@ -37,9 +44,34 @@ public class MainActivity extends Activity {
                 } catch (NumberFormatException e) {
                     Toast.makeText(getApplicationContext(), "Error input", Toast.LENGTH_SHORT).show();
                 }
+                Notification notification=null;
+                if (RomUtil.isMiui()){
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        // 8.0之后添加角标需要NotificationChannel
+                        NotificationManager notificationManager=
+                                (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+                        NotificationChannel channel = new NotificationChannel("badge", "badge",
+                                NotificationManager.IMPORTANCE_DEFAULT);
+                        //    channel.setShowBadge(true);
+                        notificationManager.createNotificationChannel(channel);
+                    }
 
-                boolean success = ShortcutBadger.applyCount(MainActivity.this, badgeCount);
+                    NotificationCompat.Builder builder =
+                            new NotificationCompat.Builder(MainActivity.this,
+                            "badge")
+                            .setContentTitle("你的应用消息")
+                            .setContentText("小米设备要消息内容与你的app结合")
 
+                            .setSmallIcon(R.drawable.ic_launcher);
+                    notification = builder.build();
+                }
+                boolean success = ShortcutBadger.applyCount(MainActivity.this,notification,
+                        badgeCount);
+                if (RomUtil.isMiui()&&notification!=null){
+                    NotificationManager notificationManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    notificationManager.notify(10,notification);
+                }
                 Toast.makeText(getApplicationContext(), "Set count=" + badgeCount + ", success=" + success, Toast.LENGTH_SHORT).show();
             }
         });

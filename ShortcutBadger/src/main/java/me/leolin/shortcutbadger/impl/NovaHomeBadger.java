@@ -1,5 +1,6 @@
 package me.leolin.shortcutbadger.impl;
 
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
@@ -25,7 +26,8 @@ public class NovaHomeBadger implements Badger {
     private static final String TAG = "tag";
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName,
+                             Notification notification, int badgeCount) throws ShortcutBadgeException {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TAG, componentName.getPackageName() + "/" + componentName.getClassName());
         contentValues.put(COUNT, badgeCount);

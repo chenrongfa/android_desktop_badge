@@ -1,6 +1,7 @@
 package me.leolin.shortcutbadger.impl;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Context;
 import android.net.Uri;
@@ -24,7 +25,8 @@ public class ZukHomeBadger implements Badger {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName,
+                             Notification notification, int badgeCount) throws ShortcutBadgeException {
         Bundle extra = new Bundle();
         extra.putInt("app_badge_count", badgeCount);
         context.getContentResolver().call(CONTENT_URI, "setAppBadgeCount", null, extra);

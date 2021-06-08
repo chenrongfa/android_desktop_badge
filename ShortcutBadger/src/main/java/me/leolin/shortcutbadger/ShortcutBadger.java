@@ -80,16 +80,18 @@ public final class ShortcutBadger {
 			BADGERS.add(QikuHomeBadger.class);
 		} else if (RomUtil.is360()) {
 			BADGERS.add(Qihoo360HomeBadger.class);
+		}else if (RomUtil.isMiui()) {
+			BADGERS.add(XiaomiHomeBadger.class);
 		}
-		if (BADGERS.size()==0){
-            BADGERS.add(EverythingMeHomeBadger.class);
-            BADGERS.add(YandexLauncherBadger.class);
-            BADGERS.add(AdwHomeBadger.class);
-            BADGERS.add(ApexHomeBadger.class);
-            BADGERS.add(DefaultBadger.class);
-            //   BADGERS.add(XiaomiHomeBadger.class);
-            BADGERS.add(LGHomeBadger.class);
-        }
+		if (BADGERS.size() == 0) {
+			BADGERS.add(EverythingMeHomeBadger.class);
+			BADGERS.add(YandexLauncherBadger.class);
+			BADGERS.add(AdwHomeBadger.class);
+			BADGERS.add(ApexHomeBadger.class);
+
+			BADGERS.add(LGHomeBadger.class);
+			BADGERS.add(DefaultBadger.class);
+		}
 
 	}
 
@@ -104,8 +106,12 @@ public final class ShortcutBadger {
 	 * @return true in case of success, false otherwise
 	 */
 	public static boolean applyCount(Context context, int badgeCount) {
+		return applyCount(context, null, badgeCount);
+	}
+
+	public static boolean applyCount(Context context, Notification notification, int badgeCount) {
 		try {
-			applyCountOrThrow(context, badgeCount);
+			applyCountOrThrow(context,notification, badgeCount);
 			return true;
 		} catch (ShortcutBadgeException e) {
 			if (Log.isLoggable(LOG_TAG, Log.DEBUG)) {
@@ -122,7 +128,8 @@ public final class ShortcutBadger {
 	 * @param context    Caller context
 	 * @param badgeCount Desired badge count
 	 */
-	public static void applyCountOrThrow(Context context, int badgeCount) throws
+	public static void applyCountOrThrow(Context context,Notification notification,
+										 int badgeCount) throws
 			ShortcutBadgeException {
 		if (sShortcutBadger == null) {
 			boolean launcherReady = initBadger(context);
@@ -132,7 +139,7 @@ public final class ShortcutBadger {
 		}
 
 		try {
-			sShortcutBadger.executeBadge(context, sComponentName, badgeCount);
+			sShortcutBadger.executeBadge(context, sComponentName, notification, badgeCount);
 		} catch (Exception e) {
 			throw new ShortcutBadgeException("Unable to execute badge", e);
 		}
@@ -155,7 +162,7 @@ public final class ShortcutBadger {
 	 * @param context Caller context
 	 */
 	public static void removeCountOrThrow(Context context) throws ShortcutBadgeException {
-		applyCountOrThrow(context, 0);
+		applyCountOrThrow(context, null,0);
 	}
 
 	/**
@@ -180,7 +187,7 @@ public final class ShortcutBadger {
 									+ String.format("%d/%d.", i + 1,
 									SUPPORTED_CHECK_ATTEMPTS));
 							if (initBadger(context)) {
-								sShortcutBadger.executeBadge(context, sComponentName, 0);
+								sShortcutBadger.executeBadge(context, sComponentName, null,0);
 								sIsBadgeCounterSupported = true;
 								Log.i(LOG_TAG, "Badge counter is supported in this platform.");
 								break;

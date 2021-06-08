@@ -1,5 +1,6 @@
 package me.leolin.shortcutbadger.impl;
 
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -31,9 +32,10 @@ public class SamsungHomeBadger implements Badger {
     }
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName,
+                             Notification notification, int badgeCount) throws ShortcutBadgeException {
         if (defaultBadger != null && defaultBadger.isSupported(context)) {
-            defaultBadger.executeBadge(context, componentName, badgeCount);
+            defaultBadger.executeBadge(context, componentName,notification, badgeCount);
         } else {
             Uri mUri = Uri.parse(CONTENT_URI);
             ContentResolver contentResolver = context.getContentResolver();

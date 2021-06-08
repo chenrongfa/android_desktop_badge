@@ -1,5 +1,6 @@
 package me.leolin.shortcutbadger.impl;
 
+import android.app.Notification;
 import android.content.AsyncQueryHandler;
 import android.content.ComponentName;
 import android.content.ContentValues;
@@ -38,7 +39,7 @@ public class SonyHomeBadger implements Badger {
 
     @Override
     public void executeBadge(Context context, ComponentName componentName,
-                             int badgeCount) throws ShortcutBadgeException {
+                             Notification notification, int badgeCount) throws ShortcutBadgeException {
         if (sonyBadgeContentProviderExists(context)) {
             executeBadgeByContentProvider(context, componentName, badgeCount);
         } else {

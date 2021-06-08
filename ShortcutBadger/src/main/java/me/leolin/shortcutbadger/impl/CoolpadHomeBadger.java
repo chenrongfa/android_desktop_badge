@@ -1,5 +1,6 @@
 package me.leolin.shortcutbadger.impl;
 
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +20,8 @@ public class CoolpadHomeBadger implements Badger {
 
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName,
+                             Notification notification, int badgeCount) throws ShortcutBadgeException {
         Intent intent = new Intent("yulong.intent.action.SHOW_NUM_CHANGED");
         intent.putExtra("packageName", context.getPackageName());
         intent.putExtra("className", componentName.getClassName());

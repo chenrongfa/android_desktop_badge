@@ -1,5 +1,6 @@
 package me.leolin.shortcutbadger.impl;
 
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Context;
 import android.net.Uri;
@@ -17,7 +18,8 @@ import me.leolin.shortcutbadger.ShortcutBadgeException;
 public class HuaweiHomeBadger implements Badger {
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName,
+                             Notification notification, int badgeCount) throws ShortcutBadgeException {
         Bundle localBundle = new Bundle();
         localBundle.putString("package", context.getPackageName());
         localBundle.putString("class", componentName.getClassName());

@@ -1,5 +1,6 @@
 package me.leolin.shortcutbadger.impl;
 
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +18,8 @@ import me.leolin.shortcutbadger.ShortcutBadgeException;
 public class VivoHomeBadger implements Badger {
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName,
+                             Notification notification, int badgeCount) throws ShortcutBadgeException {
         Intent intent = new Intent("launcher.action.CHANGE_APPLICATION_NOTIFICATION_NUM");
         intent.putExtra("packageName", context.getPackageName());
         intent.putExtra("className", componentName.getClassName());

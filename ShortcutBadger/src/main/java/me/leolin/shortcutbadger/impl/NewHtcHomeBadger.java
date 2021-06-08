@@ -1,5 +1,6 @@
 package me.leolin.shortcutbadger.impl;
 
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +25,8 @@ public class NewHtcHomeBadger implements Badger {
     public static final String EXTRA_COUNT = "com.htc.launcher.extra.COUNT";
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName,
+                             Notification notification, int badgeCount) throws ShortcutBadgeException {
 
         Intent intent1 = new Intent(INTENT_SET_NOTIFICATION);
         boolean intent1Success;

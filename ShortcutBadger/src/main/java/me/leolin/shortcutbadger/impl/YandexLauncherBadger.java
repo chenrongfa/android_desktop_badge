@@ -1,5 +1,6 @@
 package me.leolin.shortcutbadger.impl;
 
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Context;
 import android.net.Uri;
@@ -29,7 +30,8 @@ public class YandexLauncherBadger implements Badger {
     private static final String COLUMN_BADGES_COUNT = "badges_count";
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName,
+                             Notification notification, int badgeCount) throws ShortcutBadgeException {
         Bundle extras = new Bundle();
         extras.putString(COLUMN_CLASS, componentName.getClassName());
         extras.putString(COLUMN_PACKAGE, componentName.getPackageName());

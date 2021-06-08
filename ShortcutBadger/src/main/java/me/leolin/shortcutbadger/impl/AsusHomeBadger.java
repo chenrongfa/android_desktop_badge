@@ -1,6 +1,7 @@
 package me.leolin.shortcutbadger.impl;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
 import android.content.AsyncQueryHandler;
 import android.content.ComponentName;
 import android.content.ContentValues;
@@ -45,7 +46,8 @@ public class AsusHomeBadger implements Badger {
 
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName,
+                             Notification notification, int badgeCount) throws ShortcutBadgeException {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             // FIXME: It seems that ZenUI (com.asus.launcher) declares a content provider for badges but without documentation it is hard to guess how to add badges with it. Current draft implementation gives "No yet implemented" exception.
 //            if (asusBadgeContentProviderExists(context)) {

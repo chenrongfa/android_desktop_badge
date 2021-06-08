@@ -1,5 +1,6 @@
 package me.leolin.shortcutbadger.impl;
 
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Context;
 import android.net.Uri;
@@ -15,7 +16,8 @@ import me.leolin.shortcutbadger.ShortcutBadgeException;
 public class ZTEHomeBadger implements Badger {
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount)
+    public void executeBadge(Context context, ComponentName componentName,
+                             Notification notification, int badgeCount)
             throws ShortcutBadgeException {
         Bundle extra = new Bundle();
         extra.putInt("app_badge_count", badgeCount);

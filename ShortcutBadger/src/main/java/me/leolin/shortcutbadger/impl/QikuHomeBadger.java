@@ -1,6 +1,7 @@
 package me.leolin.shortcutbadger.impl;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -31,7 +32,8 @@ public class QikuHomeBadger implements Badger {
 
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName,
+                             Notification notification, int badgeCount) throws ShortcutBadgeException {
 
         if (a(context)){
             c(context,componentName,badgeCount);

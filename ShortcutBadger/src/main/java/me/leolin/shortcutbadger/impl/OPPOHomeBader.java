@@ -1,6 +1,7 @@
 package me.leolin.shortcutbadger.impl;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +34,8 @@ public class OPPOHomeBader implements Badger {
     private int mCurrentTotalCount = -1;
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName,
+                             Notification notification, int badgeCount) throws ShortcutBadgeException {
         if (mCurrentTotalCount == badgeCount) {
             return;
         }
