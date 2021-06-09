@@ -58,7 +58,7 @@ public final class ShortcutBadger {
 		if (RomUtil.isHtc()) {
 			BADGERS.add(NewHtcHomeBadger.class);
 		} else if (RomUtil.isEmui()) {
-			BADGERS.add(NovaHomeBadger.class);
+
 			BADGERS.add(HuaweiHomeBadger.class);
 		} else if (RomUtil.isSony()) {
 			BADGERS.add(SonyHomeBadger.class);
@@ -84,6 +84,7 @@ public final class ShortcutBadger {
 			BADGERS.add(XiaomiHomeBadger.class);
 		}
 		if (BADGERS.size() == 0) {
+			BADGERS.add(NovaHomeBadger.class);
 			BADGERS.add(EverythingMeHomeBadger.class);
 			BADGERS.add(YandexLauncherBadger.class);
 			BADGERS.add(AdwHomeBadger.class);
